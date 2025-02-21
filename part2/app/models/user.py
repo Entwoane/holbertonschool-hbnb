@@ -23,8 +23,8 @@ class user:
     @staticmethod
     def validate_name(name, field_name):
         """ Checks that the name is a string of max 50 characters. """
-        if not isinstance(name,str) or len(name) > 50:
-            raise ValueError(f"{filed_name} must be a string of max 50 characters.")
+        if not isinstance(name, str) or len(name) > 50:
+            raise ValueError(f"{field_name} must be a string of max 50 characters.")
         return name.strip()
 
     @staticmethod
