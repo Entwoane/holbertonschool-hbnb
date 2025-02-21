@@ -2,7 +2,6 @@
 """ Define Class Place """
 
 
-import re
 import uuid
 from datetime import datetime
 
