@@ -4,7 +4,7 @@
 
 from datetime import datetime
 
-class review:
+class Review:
     def __init__(self, review_id, text, rating, place, user):
         """
         Initializes a new review.
