@@ -6,7 +6,8 @@ import uuid
 from datetime import datetime
 
 class place:
-    def __init__(self, title, description, price, latitude, longitude, owner):
+    def __init__(self, title, price, latitude, longitude, owner, description=None):
+        """ Initialization of a location with input validation """
         # Generate a unique ID
         self.id = str(uuid.uuid4())
 
