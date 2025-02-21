@@ -8,10 +8,14 @@ from datetime import datetime
 
 class user:
     def __init__(self, first_name, last_name, email, is_admin=False):
+        # Generate a unique ID
         self.id = str(uuid.uuid4())
+
+        # Field checks
         self.first_name = self.validate_name(first_name, "first name")
         self.last_name = self.validate_name(last_name, "last name")
         self.email = self.validate_email(email)
+
         self.is_admin = is_admin
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
