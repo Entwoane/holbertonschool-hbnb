@@ -18,7 +18,7 @@ class Review:
             raise ValueError("The score must be between 1 and 5")
 
         super().__init__() # Initialize parent class
-        self.id = review_id
+        self.review_id = review_id
         self.text = text
         self.rating = rating # Score between 1 and 5
         self.place = place
