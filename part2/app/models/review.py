@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Define Class Review """
+""" Defining the review class, its attributes and relationships """
 
 
 from datetime import datetime
