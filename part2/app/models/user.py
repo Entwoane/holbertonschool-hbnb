@@ -5,11 +5,13 @@
 import re
 import uuid
 from datetime import datetime
+from app.models.place import Place
+from app.models.review import Review
 
 class User:
     def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__() # Initialize parent class
-        
+
         # Generate a unique ID
         self.id = str(uuid.uuid4())
 
@@ -28,7 +30,7 @@ class User:
 
     def add_place(self, place):
         """ Associate a location with this user """
-        if isinstance(place, place):
+        if isinstance(place, Place):
             self.place.append(place)
             place.owner = self # Set user as owner
         else:
@@ -36,7 +38,7 @@ class User:
 
     def add_review(self, review):
         """ Associate a notice with this user """
-        if isinstance(review, review):
+        if isinstance(review, Review):
             self.reviews.append(review)
             review.user = self # Define user as review author
         else:
@@ -52,7 +54,7 @@ class User:
     @staticmethod
     def validate_email(email):
         """ Checks that the email is valid. """
-        pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z-9-.]+$"
+        pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         if not re.match(pattern, email):
             raise ValueError("Invalid e-mail address.")
         return email.strip().lower()
@@ -68,7 +70,7 @@ class User:
         if is_admin is not None:
             self.is_admin = is_admin
 
-        self.update_at = datetime.now()
+        self.updated_at = datetime.now()
 
     def show_info(self):
         """ Displays user information. """
