@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Define Class Aminity """
+""" Defining the aminity class, its attributes and relationships """
 
 
 import uuid
