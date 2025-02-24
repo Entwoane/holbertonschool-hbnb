@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Define Class Place """
+""" Defining the place class, its attributes and relationships """
 
 
 import uuid
@@ -20,6 +20,29 @@ class Place:
         self.owner = self.validate_owner(owner)
         self.created_at = datetime.now
         self.updated_at = self.created_at
+
+        # Relation
+        self.owner = owner # The user who owns the site
+        self.amenities = [] # Equipment list
+        self.reviews = [] # List of reviews associated with this location
+
+        if owner:
+            owner.add_place(self) # Add this location to the user's list of locations
+
+    def add_aminity(self, aminity):
+        """ Associate a piece of equipment with this location """
+        if isinstance(aminity, aminity):
+            self.aminities.append(aminity)
+        else:
+            raise TypeError("The object added must be an instance of Amenity")
+
+    def add_review(self, review):
+        """ Associates a notice with this location """
+        if isinstance(review, review):
+            self.reviews.append(review)
+            review.place = self # Associate notice with this location
+        else:
+            raise TypeError("The object added must be an instance of Review")
 
     def validate_title(self, title):
         """ Validate Title """
