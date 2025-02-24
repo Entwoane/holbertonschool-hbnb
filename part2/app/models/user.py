@@ -20,6 +20,26 @@ class User:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
+        #Relation
+        self.place = [] # List of places owned by the user
+        self.reviews = [] # List of reviews written by the user
+
+    def add_place(self, place):
+        """ Associate a location with this user """
+        if isinstance(place, place):
+            self.place.append(place)
+            place.owner = self # Set user as owner
+        else:
+            raise TypeError("The object added must be an instance of Place")
+
+    def add_review(self, review):
+        """ Associate a notice with this user """
+        if isinstance(review, review):
+            self.reviews.append(review)
+            review.user = self # Define user as review author
+        else:
+            raise TypeError("The object added must be a Review instance")
+
     @staticmethod
     def validate_name(name, field_name):
         """ Checks that the name is a string of max 50 characters. """
