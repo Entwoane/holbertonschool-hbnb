@@ -5,7 +5,7 @@
 from datetime import datetime
 
 class Review:
-    def __init__(self, review_id, text, rating, place, user):
+    def __init__(self, text, rating, place, user, review_id=None):
         """
         Initializes a new review.
         :param review_id: Unique review identifier
