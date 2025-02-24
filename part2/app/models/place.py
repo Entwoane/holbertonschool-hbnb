@@ -8,6 +8,8 @@ from datetime import datetime
 class Place:
     def __init__(self, title, price, latitude, longitude, owner, description=None):
         """ Initialization of a location with input validation """
+        super().__init__() # Initialize parent class
+        
         # Generate a unique ID
         self.id = str(uuid.uuid4())
 
