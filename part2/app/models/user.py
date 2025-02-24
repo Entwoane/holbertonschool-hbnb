@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defining the user class, its attributes and relationships"""
+""" Defining the user class, its attributes and relationships """
 
 
 import re
