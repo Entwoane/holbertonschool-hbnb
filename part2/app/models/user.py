@@ -8,6 +8,8 @@ from datetime import datetime
 
 class User:
     def __init__(self, first_name, last_name, email, is_admin=False):
+        super().__init__() # Initialize parent class
+        
         # Generate a unique ID
         self.id = str(uuid.uuid4())
 
