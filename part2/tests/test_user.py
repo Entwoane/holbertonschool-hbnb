@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from app.models.user import User
 
 def test_user_creation():
@@ -6,6 +9,3 @@ def test_user_creation():
     assert user.last_name == "Doe"
     assert user.email == "john.doe@example.com"
     assert user.is_admin is False  # Default value
-    print("User creation test passed!")
-
-test_user_creation()
