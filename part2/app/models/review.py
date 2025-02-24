@@ -30,8 +30,6 @@ class Review:
         if user:
             user.add_review(self) # Add review to user
 
-        if place:
-            place.add_review(self) # Add review to location
 
     def __str__(self):
         """ Returns a textual representation of the review """
