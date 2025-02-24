@@ -17,12 +17,9 @@ class Review:
         if not (1 <= rating <= 5):
             raise ValueError("The score must be between 1 and 5")
 
-        super().__init__() # Initialize parent class
         self.review_id = review_id
         self.text = text
         self.rating = rating # Score between 1 and 5
-        self.place = place
-        self.user = user
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
@@ -37,8 +34,8 @@ class Review:
             place.add_review(self) # Add review to location
 
     def __str__(self):
-        """ Returns a textual representation of the notification """
-        return f"notification {self.user}: {self.rating}/5 - {self.text} ({self.created_at})"
+        """ Returns a textual representation of the review """
+        return f"Review by {self.user}: {self.rating}/5 - {self.text} ({self.created_at})"
 
     def updated_review(self, text=None, rating=None):
         """ Updates review rating or comment """
@@ -46,6 +43,8 @@ class Review:
             if not (1 <= rating <= 5):
                 raise ValueError("The score must be between 1 and 5")
         self.rating = rating
+
         if text is not None:
             self.text = text
+
         self.updated_at = datetime.now()
