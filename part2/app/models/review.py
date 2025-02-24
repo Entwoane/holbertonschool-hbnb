@@ -20,11 +20,21 @@ class Review:
         super().__init__() # Initialize parent class
         self.id = review_id
         self.text = text
-        self.rating = rating
+        self.rating = rating # Score between 1 and 5
         self.place = place
         self.user = user
         self.created_at = datetime.now()
         self.updated_at = self.created_at
+
+        # Relation
+        self.user = user # User who wrote the review
+        self.place = place # The place concerned by the review
+
+        if user:
+            user.add_review(self) # Add review to user
+
+        if place:
+            place.add_review(self) # Add review to location
 
     def __str__(self):
         """ Returns a textual representation of the notification """
