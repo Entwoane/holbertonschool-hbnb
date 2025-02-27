@@ -37,7 +37,7 @@ class HBnBFacade:
 
         print(f">>> Amenity created: {new_amenity.id}")
 
-        return new_amenity.to_dict()
+        return new_amenity
 
     def get_amenity(self, amenity_id):
         amenity = self.amenity_repo.get(amenity_id)
