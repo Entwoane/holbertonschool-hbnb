@@ -23,7 +23,7 @@ class AmenityList(Resource):
         amenity = facade.create_amenity(data)
 
         print(">>> Amenity returned from create_amenity:", amenity)
-        
+
         if not amenity:
             return {'message': 'Failed to create amenity'}, 400
 

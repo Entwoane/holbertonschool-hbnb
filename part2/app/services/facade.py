@@ -34,9 +34,15 @@ class HBnBFacade:
 
         new_amenity = Amenity(amenity_data["name"])
         self.amenity_repo.add(new_amenity)
+
+        print(f">>> Amenity created: {new_amenity.id}")
+
         return new_amenity.to_dict()
 
     def get_amenity(self, amenity_id):
+
+        print(f">>> Searching for Amenity ID {amenity_id}: Found? {amenity is not None}")
+        
         return self.amenity_repo.get(amenity_id)
 
     def get_all_amenities(self):
