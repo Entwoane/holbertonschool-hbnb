@@ -20,7 +20,8 @@ class Amenity:
         """ Update equipment name """
         if not isinstance(new_name, str):
             raise TypeError("new_name must be a string")
-        
+        print(f">>> new_name reçu dans update(): {new_name} (type: {type(new_name)})")
+
         if len(new_name) > 50:
             raise ValueError("Equipment name must not exceed 50 characters")
 
