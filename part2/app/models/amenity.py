@@ -20,7 +20,7 @@ class Amenity:
         """ Update equipment name """
         print(f">>> Type de new_data: {type(new_data)}, Contenu: {new_data}")
 
-        new_name = new_data.get("name")
+        new_name = new_data("name")
     
         print(f">>> Extracted new_name: {new_name}")
         
