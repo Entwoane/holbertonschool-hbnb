@@ -36,6 +36,7 @@ class AmenityList(Resource):
         if not amenity:
             return {"message": "Amenity not found"}, 404
         
+        print(">>> Amenity sous forme de dict :", amenity.to_dict())
         return amenity.to_dict(), 200
 
 
