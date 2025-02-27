@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from app.persistence.repository import InMemoryRepository
 from app.models.amenity import Amenity
 from app.models.user import User
