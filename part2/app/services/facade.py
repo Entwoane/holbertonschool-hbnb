@@ -64,7 +64,7 @@ class HBnBFacade:
         if not isinstance(new_name, str):
             raise TypeError("new_name must be a string")
 
-        amenity.update({"name": new_name})
+        amenity.update(new_name)
         self.amenity_repo.update(amenity_id, {"name": new_name})
 
         return amenity
