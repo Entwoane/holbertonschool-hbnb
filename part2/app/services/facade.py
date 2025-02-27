@@ -34,13 +34,14 @@ class HBnBFacade:
 
         new_amenity = Amenity(amenity_data["name"])
         self.amenity_repo.add(new_amenity)
-        return new_amenity
+        return {"id": new_amenity.id, "name": new_amenity.name}
 
     def get_amenity(self, amenity_id):
         return self.amenity_repo.get(amenity_id)
 
     def get_all_amenities(self):
-        return self.amenity_repo.get_all()
+        amenities = self.amenity_repo.get_all()
+        return [{"id": a.id, "name": a.name} for a in amenities]
 
     def update_amenity(self, amenity_id, amenity_data):
         amenity = self.amenity_repo.get(amenity_id)
