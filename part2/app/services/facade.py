@@ -40,9 +40,8 @@ class HBnBFacade:
         return new_amenity.to_dict()
 
     def get_amenity(self, amenity_id):
-
-        print(f">>> Searching for Amenity ID {amenity_id}: Found? {amenity is not None}")
         amenity = self.amenity_repo.get(amenity_id)
+        print(f">>> Searching for Amenity ID {amenity_id}: Found? {amenity is not None}")
         return amenity
 
     def get_all_amenities(self):
