@@ -16,11 +16,11 @@ class Amenity:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-    def update(self, new_data):
+    def update(self, new_name):
         """ Update equipment name """
-        print(f">>> Type de new_data: {type(new_data)}, Contenu: {new_data}")
+        print(f">>> Type de new_data: {type(new_name)}, Contenu: {new_name}")
 
-        new_name = new_data("name")
+        new_name = new_name("name")
     
         print(f">>> Extracted new_name: {new_name}")
         
