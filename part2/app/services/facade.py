@@ -53,6 +53,9 @@ class HBnBFacade:
         if not amenity:
             return None
         
+        print(f">>> Type de data reçu dans update_amenity(): {type(data)} - Contenu: {data}")
+
+
         new_name = data.get("name")
         print(f">>> new_name extrait de data: {data.get('name')} (type: {type(data.get('name'))})")
 
