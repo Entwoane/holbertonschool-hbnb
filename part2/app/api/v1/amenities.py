@@ -47,6 +47,8 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     def get(self, amenity_id):
         amenity = facade.get_amenity(amenity_id)
+        print(f">>> Amenity fetched: {amenity}")
+
         if not amenity:
             return {'message': 'Amenity not found'}, 404
         return amenity.to_dict(), 200
