@@ -42,8 +42,8 @@ class HBnBFacade:
     def get_amenity(self, amenity_id):
 
         print(f">>> Searching for Amenity ID {amenity_id}: Found? {amenity is not None}")
-        
-        return self.amenity_repo.get(amenity_id)
+        amenity = self.amenity_repo.get(amenity_id)
+        return amenity
 
     def get_all_amenities(self):
         amenities = self.amenity_repo.get_all()
