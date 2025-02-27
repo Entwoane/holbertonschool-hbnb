@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import request
 from flask_restx import Namespace, Resource, fields
 from app.services.facade import HBnBFacade
 
@@ -53,7 +53,7 @@ class AmenityResource(Resource):
     @api.response(404, 'Amenity not found')
     @api.response(400, 'Invalid input data')
     def put(self, amenity_id):
-        data = api.payload
+        data = request.get_json()
         if not data or 'name' not in data:
             return {'message': 'Invalid input data'}, 400
 
