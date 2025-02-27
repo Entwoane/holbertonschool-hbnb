@@ -16,13 +16,15 @@ class Amenity:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-    def update(self, new_name):
+    def update(self, new_data):
         """ Update equipment name """
-        if isinstance(new_name, dict):
-            new_name = new_name.get("name", "")
+        print(f">>> Data received in update: {new_data}")
+        new_name = new_data.get("name")
     
+        print(f">>> Extracted new_name: {new_name}")
+        
         if not isinstance(new_name, str):
-            raise TypeError(f"Expected string, got {type(new_name)} instead")
+            raise TypeError(f"Expected a string for 'name', got {type(new_name)}")
         print(f">>> new_name reçu dans update(): {new_name} (type: {type(new_name)})")
 
         if len(new_name) > 50:
