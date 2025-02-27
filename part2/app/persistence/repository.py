@@ -43,6 +43,7 @@ class InMemoryRepository(Repository):
         obj = self.get(obj_id)
         if obj:
             print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
+            
             if not isinstance(data, dict):
                 raise TypeError(f"Expected dict in update(), got {type(data)}")
             
