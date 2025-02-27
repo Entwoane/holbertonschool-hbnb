@@ -42,6 +42,9 @@ class InMemoryRepository(Repository):
     def update(self, obj_id, data):
         obj = self.get(obj_id)
         if obj:
+            if not isinstance(data, dict):
+                raise TypeError(f"Expected dict in update(), got {type(data)}")
+            
             obj.update(data)
 
     def delete(self, obj_id):
