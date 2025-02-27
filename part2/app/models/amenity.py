@@ -18,6 +18,9 @@ class Amenity:
 
     def update(self, new_name):
         """ Update equipment name """
+        if isinstance(new_name, dict):
+            new_name = new_name.get("name", "")
+    
         if not isinstance(new_name, str):
             raise TypeError(f"Expected string, got {type(new_name)} instead")
         print(f">>> new_name reçu dans update(): {new_name} (type: {type(new_name)})")
