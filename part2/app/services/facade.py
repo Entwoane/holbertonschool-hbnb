@@ -54,11 +54,14 @@ class HBnBFacade:
             return None
         
         new_name = data.get("name")
+        print(f">>> new_name extrait de data: {new_name} (type: {type(new_name)})")
+
         if not isinstance(new_name, str):
-            return None
+            raise TypeError("new_name must be a string")
 
         amenity.update(new_name)
         self.amenity_repo.update(amenity_id, amenity)
+        
         return amenity
 
 facade = HBnBFacade()
