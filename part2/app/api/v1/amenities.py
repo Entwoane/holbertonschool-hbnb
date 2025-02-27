@@ -27,7 +27,7 @@ class AmenityList(Resource):
         if not amenity:
             return {'message': 'Failed to create amenity'}, 400
 
-        return amenity.to_dict(), 201
+        return amenity, 201
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self, amenity_id):
