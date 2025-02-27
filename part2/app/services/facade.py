@@ -55,7 +55,9 @@ class HBnBFacade:
         
         print(f">>> Type de data reçu dans update_amenity(): {type(data)} - Contenu: {data}")
 
-
+        if not isinstance(data, dict):
+            raise TypeError(f"Expected 'data' to be a dict, got {type(data)} instead.")
+        
         new_name = data.get("name")
         print(f">>> new_name extrait de data: {data.get('name')} (type: {type(data.get('name'))})")
 
