@@ -48,12 +48,16 @@ class HBnBFacade:
         amenities = self.amenity_repo.get_all()
         return [a.to_dict() for a in amenities]
 
-    def update_amenity(self, amenity_id, amenity_data):
+    def update_amenity(self, amenity_id, data):
         amenity = self.amenity_repo.get(amenity_id)
-        if not amenity or 'name' not in amenity_data:
+        if not amenity:
+            return None
+        
+        new_name = data.get("name")
+        if not isinstance(new_name, str):
             return None
 
-        amenity.update(amenity_data["name"])
+        amenity.update(new_name)
         self.amenity_repo.update(amenity_id, amenity)
         return amenity
 
