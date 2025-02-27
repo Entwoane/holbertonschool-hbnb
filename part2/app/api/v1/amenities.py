@@ -27,7 +27,7 @@ class AmenityList(Resource):
         if not amenity:
             return {'message': 'Failed to create amenity'}, 400
 
-        return amenity.to_dict(), 201
+        return amenity, 201
 
     @api.response(200, 'List of amenities retrieved successfully')
     def get(self, amenity_id):
@@ -49,7 +49,7 @@ class AmenityResource(Resource):
         amenity = facade.get_amenity(amenity_id)
         if not amenity:
             return {'message': 'Amenity not found'}, 404
-        return amenity.to_dict(), 200
+        return amenity, 200
 
     @api.expect(amenity_model)
     @api.response(200, 'Amenity updated successfully')
