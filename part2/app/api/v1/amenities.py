@@ -30,9 +30,13 @@ class AmenityList(Resource):
         return amenity, 201
 
     @api.response(200, 'List of amenities retrieved successfully')
-    def get(self):
-        amenities = facade.get_all_amenities()
-        return amenities, 200
+    def get(self, amenity_id):
+        amenity = facade.get_all_amenities()
+
+        if not amenity:
+            return {"message": "Amenity not found"}, 404
+        
+        return amenity.to_dict(), 200
 
 
 @api.route('/<string:amenity_id>')
