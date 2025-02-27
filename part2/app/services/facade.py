@@ -60,7 +60,7 @@ class HBnBFacade:
             raise TypeError("new_name must be a string")
 
         amenity.update(new_name)
-        self.amenity_repo.update(amenity_id, amenity)
+        self.amenity_repo.update(amenity_id, {"name": new_name})
 
         return amenity
 
