@@ -19,7 +19,7 @@ class Amenity:
     def update(self, new_name):
         """ Update equipment name """
         if not isinstance(new_name, str):
-            raise TypeError("new_name must be a string")
+            raise TypeError(f"Expected string, got {type(new_name)} instead")
         print(f">>> new_name reçu dans update(): {new_name} (type: {type(new_name)})")
 
         if len(new_name) > 50:
