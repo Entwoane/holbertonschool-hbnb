@@ -18,7 +18,8 @@ class Amenity:
 
     def update(self, new_data):
         """ Update equipment name """
-        print(f">>> Data received in update: {new_data}")
+        print(f">>> Type de new_data: {type(new_data)}, Contenu: {new_data}")
+
         new_name = new_data.get("name")
     
         print(f">>> Extracted new_name: {new_name}")
