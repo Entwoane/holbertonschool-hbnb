@@ -16,8 +16,11 @@ class Amenity:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-    def update(self, new_name: str):
+    def update(self, new_name):
         """ Update equipment name """
+        if not isinstance(new_name, str):
+            raise TypeError("new_name must be a string")
+        
         if len(new_name) > 50:
             raise ValueError("Equipment name must not exceed 50 characters")
 
