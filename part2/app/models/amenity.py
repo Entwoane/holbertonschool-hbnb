@@ -24,5 +24,14 @@ class Amenity:
         self.name = new_name
         self.updated_at = datetime.now()
 
+    def to_dict(self):
+        """ Convert the object into a JSON serializable dictionary """
+        return {
+            "id": self.id,
+            "name": self.name,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+        }
+
     def __str__(self):
         return f"Amenity(id={self.id}, name={self.name}, created_at={self.created_at}, updated_at={self.updated_at})"
