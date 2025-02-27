@@ -45,12 +45,17 @@ class UserResource(Resource):
 @api.response(404, 'User not found')
 def put(self, user_id):
     """Update user details"""
+    print(f"PUT request received for user_id: {user_id}") # LOG POUR DEBUG
     user = facade.get_user(user_id)
     if not user:
+            print("User not found") # LOG POUR DEBUG
             return {'error': 'User not found'}, 404
 
     user_data = api.payload
+    print(f"User data received: {user_data}")  # LOG POUR DEBUG
+
     user.update(**user_data)
+    print("User updated successfully")  # LOG POUR DEBUG
     return {'message': 'User successfully updated', 'user': {
             'id': user.id,
             'first_name': user.first_name,
