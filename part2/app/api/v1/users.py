@@ -56,6 +56,7 @@ def put(self, user_id):
 
     user.update(**user_data)
     print("User updated successfully")  # LOG POUR DEBUG
+
     return {'message': 'User successfully updated', 'user': {
             'id': user.id,
             'first_name': user.first_name,
