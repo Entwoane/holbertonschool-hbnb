@@ -21,6 +21,9 @@ class AmenityList(Resource):
             return {'message': 'Invalid input data'}, 400
 
         amenity = facade.create_amenity(data)
+
+        print(">>> Amenity returned from create_amenity:", amenity)
+        
         if not amenity:
             return {'message': 'Failed to create amenity'}, 400
 
