@@ -41,3 +41,5 @@ class HBnBFacade:
         amenity.update(amenity_data["name"])
         self.amenity_repo.update(amenity_id, amenity)
         return amenity
+
+facade = HBnBFacade()
