@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ Defining the user class, its attributes and relationships """
 
-
 import re
 import uuid
 from datetime import datetime
@@ -10,7 +9,7 @@ from app.models.review import Review
 
 class User:
     def __init__(self, first_name, last_name, email, is_admin=False):
-        super().__init__() # Initialize parent class
+        super().__init__()  # Initialize parent class
 
         # Generate a unique ID
         self.id = str(uuid.uuid4())
@@ -24,30 +23,30 @@ class User:
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 
-        #Relation
-        self.place = [] # List of places owned by the user
-        self.reviews = [] # List of reviews written by the user
+        # Relation
+        self.places = []  # ✅ Correction : liste des endroits possédés
+        self.reviews = []  # List of reviews written by the user
 
     def add_place(self, place):
         """ Associate a location with this user """
         if isinstance(place, Place):
-            self.place.append(place)
-            place.owner = self # Set user as owner
+            self.places.append(place)  # ✅ Correction du nom de la liste
+            place.owner = self  # Set user as owner
         else:
             raise TypeError("The object added must be an instance of Place")
 
     def add_review(self, review):
-        """ Associate a notice with this user """
+        """ Associate a review with this user """
         if isinstance(review, Review):
             self.reviews.append(review)
-            review.user = self # Define user as review author
+            review.user = self  # Define user as review author
         else:
             raise TypeError("The object added must be a Review instance")
 
     @staticmethod
     def validate_name(name, field_name):
         """ Checks that the name is a string of max 50 characters. """
-        if not isinstance(name, str) or len(name) > 50:
+        if not isinstance(name, str) or len(name.strip()) > 50:  # ✅ Suppression des espaces inutiles
             raise ValueError(f"{field_name} must be a string of max 50 characters.")
         return name.strip()
 
@@ -57,7 +56,7 @@ class User:
         pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         if not re.match(pattern, email):
             raise ValueError("Invalid e-mail address.")
-        return email.strip().lower()
+        return email.strip().lower()  # ✅ Conversion en minuscules
 
     def update(self, first_name=None, last_name=None, email=None, is_admin=None):
         """ Updates user information. """
@@ -79,4 +78,4 @@ class User:
                 f"Email: {self.email}\n"
                 f"Admin: {'Yes' if self.is_admin else 'No'}\n"
                 f"Created_at: {self.created_at}\n"
-                f"Update_at: {self.update_at}")
+                f"Updated_at: {self.updated_at}")  # ✅ Correction du nom
