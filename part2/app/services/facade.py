@@ -62,7 +62,7 @@ class HBnBFacade:
         print(f">>> new_name extrait de data: {data.get('name')} (type: {type(data.get('name'))})")
 
         if not isinstance(new_name, str):
-            raise TypeError(f"Expected 'name' to be a string, got {type(new_name)} instead.")
+            raise TypeError("new_name must be a string")
 
         amenity.update({"name": new_name})
 
