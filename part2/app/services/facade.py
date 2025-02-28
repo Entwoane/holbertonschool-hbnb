@@ -76,14 +76,15 @@ class HBnBFacade:
         if not self._validate_place_data(place_data):
             return {"error": "Invalid place data"}, 400
         
-        owner = place_data.get('owner')
+        owner_id= place_data.get('owner_id')
         if not owner:
             return {"error": "Owner is required"}, 400
 
         new_place = Place(
             id=str(uuid4()),
-            owner=owner,
+            owner_id=owner_id,
             title=place_data.get('title'),
+            description=place_data.get('description', ''),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
@@ -95,8 +96,9 @@ class HBnBFacade:
             "message": "Place successfully created",
             "place": {
                 "id": created_place.id,
-                "owner": created_place.owner,
-                "name": created_place.name,
+                "owner_id": created_place.owner_id,
+                "title": created_place.title,
+                "description": created_place.description,
                 "price": created_place.price,
                 "latitude": created_place.latitude,
                 "longitude": created_place.longitude
