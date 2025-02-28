@@ -74,7 +74,7 @@ class HBnBFacade:
     def create_place(self, place_data):
     # Logic to create a place, including validation for price, latitude, and longitude
         if not self._validate_place_data(place_data):
-            return False
+            return {"error": "Invalid place data"}, 400
         
         owner = place_data.get('owner')
         if not owner:
@@ -83,7 +83,7 @@ class HBnBFacade:
         new_place = Place(
             id=str(uuid4()),
             owner=owner,
-            title=place_data.get('title'),
+            name=place_data.get('name'),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
