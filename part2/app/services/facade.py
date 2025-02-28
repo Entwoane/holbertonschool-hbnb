@@ -76,7 +76,7 @@ class HBnBFacade:
             return False
 
         new_place = Place(
-            name=place_data.get('name'),
+            title=place_data.get('title'),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
