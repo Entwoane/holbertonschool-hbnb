@@ -25,18 +25,18 @@ class Place:
         self.updated_at = self.created_at
 
         # Relation
-        self.owner = owner_id # The user who owns the site
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
+        self.owner = owner_id # The user who owns the site
 
         if owner_id:
-            owner_id.add_place(str) # Add this location to the user's list of locations
+            owner_id.add_place(self) # Add this location to the user's list of locations
 
     def add_aminity(self, aminity):
         """ Associate a piece of equipment with this location """
         if isinstance(aminity, aminity):
-            self.aminities.append(aminity)
+            self.amenities.append(aminity)
         else:
             raise TypeError("The object added must be an instance of Amenity")
 
