@@ -27,14 +27,31 @@ class Place:
 
         self.owner = self.get_user(owner_id)  # Retrieves the user with this ID
         if not self.owner:
-            raise ValueError("Invalid owner_id: User not found.")
+            raise ValueError(f"Invalid owner_id: No user found with ID {owner_id}")
 
         # Relation
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
-        if self.owner:
-            owner_id.add_place(self) # Add this location to the user's list of locations
+        self.owner.add_place(self)
+
+    def get_user(self, owner_id):
+        """ Convertit owner_id en un objet User si c'est un ID """
+        if isinstance(owner_id, User):  # If it's already a User, we keep it
+            return owner_id
+        elif isinstance(owner_id, str): # If it's an ID, we look for the User object
+            return self.find_user_by_id(owner_id)
+        return None
+
+    @staticmethod
+    def find_user_by_id(user_id):
+        """ Simule la récupération d'un utilisateur par son ID (à remplacer par une requête DB) """
+        # Fictitious example (replace this part with your ORM query)
+        users_db = {
+            "1234": User("Alice", "Dupont", "alice@example.com"),
+            "5678": User("Bob", "Martin", "bob@example.com")
+        }
+        return users_db.get(user_id, None)  # Returns None if ID does not exist
 
     def get_owner_object(self, owner_id):
         """ Retrieves the User object associated with owner_id """
