@@ -25,7 +25,9 @@ class Place:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-        self.owner = self.get_owner_object(owner_id)
+        self.owner = User.get(owner_id)  # Retrieves the user with this ID
+        if not self.owner:
+            raise ValueError("Invalid owner_id: User not found.")
 
         # Relation
         self.amenities = [] # Equipment list
