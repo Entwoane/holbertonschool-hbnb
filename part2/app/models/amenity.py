@@ -28,10 +28,10 @@ class Amenity:
 
         new_name = new_data.get("name")
     
-        print(f">>> DEBUG: Extracted new_name: {new_name} (type: {type(new_name)})")
+        print(f">>> Extracted new_name: {new_name}")
         
         if not isinstance(new_name, str):
-            raise TypeError(f"Expected a string for 'name', got {type(new_name)} instead.")
+            raise TypeError(f"Expected a string for 'name', got {type(new_name)}")
         
         if len(new_name) > 50:
             raise ValueError("Equipment name must not exceed 50 characters")
