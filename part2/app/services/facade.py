@@ -66,7 +66,7 @@ class HBnBFacade:
 
         amenity.update(data)
 
-        self.amenity_repo.update(amenity_id, amenity)
+        self.amenity_repo.update(amenity_id, amenity.to_dict())
 
         return amenity
 
