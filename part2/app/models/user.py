@@ -8,6 +8,9 @@ from app.models.place import Place
 from app.models.review import Review
 
 class User:
+    # Simulates a user database (stored in memory)
+    users_db = {}
+
     def __init__(self, first_name, last_name, email, is_admin=False):
         super().__init__()  # Initialize parent class
 
@@ -25,7 +28,10 @@ class User:
 
         # Relation
         self.places = []  
-        self.reviews = []  
+        self.reviews = []
+
+        # Add user to simulated database
+        User.users_db[self.id] = self
 
     def add_place(self, place):
         """ Associate a location with this user """
@@ -79,3 +85,8 @@ class User:
                 f"Admin: {'Yes' if self.is_admin else 'No'}\n"
                 f"Created_at: {self.created_at}\n"
                 f"Updated_at: {self.updated_at}")  
+
+    @classmethod
+    def get(cls, user_id):
+        """ Retrieves a user by ID """
+        return cls.users_db.get(user_id)
