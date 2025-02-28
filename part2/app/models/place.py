@@ -21,16 +21,15 @@ class Place:
         self.latitude = self.validate_latitude(latitude)
         self.longitude = self.validate_longitude(longitude)
         self.owner = self.validate_owner(owner_id)
-        self.created_at = datetime.now
+        self.owner = self.get_owner_object(owner_id)
+        self.created_at = datetime.now()
         self.updated_at = self.created_at
 
         # Relation
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
-        self.owner = owner_id # The user who owns the site
-
-        if owner_id:
+        if self.owner:
             owner_id.add_place(self) # Add this location to the user's list of locations
 
     def add_aminity(self, aminity):
