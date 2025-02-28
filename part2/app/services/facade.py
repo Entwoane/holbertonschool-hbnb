@@ -76,7 +76,7 @@ class HBnBFacade:
         if not self._validate_place_data(place_data):
             return {"error": "Invalid place data"}, 400
         
-        owner_id= place_data.get('owner_id')
+        owner_id = place_data.get('owner_id')
         if not owner_id:
             return {"error": "Owner is required"}, 400
 
