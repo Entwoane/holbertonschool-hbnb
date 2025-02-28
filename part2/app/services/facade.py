@@ -84,7 +84,7 @@ class HBnBFacade:
             id=str(uuid4()),
             owner_id=owner_id,
             title=place_data.get('title'),
-            description=place_data.get('description', ''),
+            description=place_data.get('description'),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
