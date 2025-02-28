@@ -83,7 +83,7 @@ class HBnBFacade:
         new_place = Place(
             id=str(uuid4()),
             owner=owner,
-            name=place_data.get('name'),
+            title=place_data.get('title'),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
