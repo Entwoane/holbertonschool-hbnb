@@ -11,8 +11,7 @@ class Place:
         """ Initialization of a location with input validation """
         super().__init__() # Initialize parent class
 
-        # Generate a unique ID
-        self.id = str(uuid.uuid4())
+        self.id = id
 
         # Field Check
         self.title = self.validate_title(title)
