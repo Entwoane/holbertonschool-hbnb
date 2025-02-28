@@ -52,22 +52,16 @@ class HBnBFacade:
         amenity = self.amenity_repo.get(amenity_id)
         if not amenity:
             return None
-        
-        print(f">>> Type de data reçu dans update_amenity(): {type(data)} - Contenu: {data}")
 
-        if not isinstance(data, dict):
-            raise TypeError(f"Expected 'data' to be a dict, got {type(data)} instead.")
-        
         new_name = data.get("name")
-        print(f">>> new_name extrait de data: {data.get('name')} (type: {type(data.get('name'))})")
+        if new_name:
+           amenity.name = new_name
+           amenity.updated_at = datetime.now()
 
-        if not isinstance(new_name, str):
-            raise TypeError("new_name must be a string")
-
-        amenity.update(data)
+        print(f">>> Type d'amenity après modification: {type(amenity)} - Contenu: {amenity}")
 
         self.amenity_repo.update(amenity_id, amenity.to_dict())
-
+        
         return amenity
 
 facade = HBnBFacade()
