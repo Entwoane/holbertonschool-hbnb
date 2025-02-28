@@ -7,7 +7,7 @@ from datetime import datetime
 from app.models.review import Review
 
 class Place:
-    def __init__(self, id,  title, price, latitude, longitude, owner, description=None):
+    def __init__(self, id,  title, price, latitude, longitude, owner_id, description=None):
         """ Initialization of a location with input validation """
         super().__init__() # Initialize parent class
 
@@ -19,17 +19,17 @@ class Place:
         self.price = self.validate_price(price)
         self.latitude = self.validate_latitude(latitude)
         self.longitude = self.validate_longitude(longitude)
-        self.owner = self.validate_owner(owner)
+        self.owner_id = self.validate_owner(owner_id)
         self.created_at = datetime.now
         self.updated_at = self.created_at
 
         # Relation
-        self.owner = owner # The user who owns the site
+        self.owner = owner_id # The user who owns the site
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
-        if owner:
-            owner.add_place(self) # Add this location to the user's list of locations
+        if owner_id:
+            owner_id.add_place(self) # Add this location to the user's list of locations
 
     def add_aminity(self, aminity):
         """ Associate a piece of equipment with this location """
