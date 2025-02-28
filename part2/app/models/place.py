@@ -7,7 +7,7 @@ from datetime import datetime
 from app.models.review import Review
 
 class Place:
-    def __init__(self, title, price, latitude, longitude, owner, description=None):
+    def __init__(self, id,  title, price, latitude, longitude, owner, description=None):
         """ Initialization of a location with input validation """
         super().__init__() # Initialize parent class
 
