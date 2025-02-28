@@ -5,6 +5,7 @@
 import uuid
 from datetime import datetime
 from app.models.review import Review
+from app.models.user import User
 
 class Place:
     def __init__(self, id,  title, price, latitude, longitude, owner_id, description=None):
@@ -24,12 +25,21 @@ class Place:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
+        self.owner = self.get_owner_object(owner_id)
+
         # Relation
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
         if self.owner:
             owner_id.add_place(self) # Add this location to the user's list of locations
+
+    def get_owner_object(self, owner_id):
+        """ Retrieves the User object associated with owner_id """
+        user = User.get(owner_id)  # Recover user ID
+        if not user:
+            raise ValueError(f"Aucun utilisateur trouvé avec l'ID {owner_id}")
+        return user
 
     def add_aminity(self, aminity):
         """ Associate a piece of equipment with this location """
