@@ -23,6 +23,9 @@ class Amenity:
         if not isinstance(new_data, dict):
             raise TypeError(f"Expected 'new_data' to be a dict, got {type(new_data)} instead.")
         
+        for key, value in new_data.items():
+            setattr(self, key, value)
+
         new_name = new_data.get("name")
     
         print(f">>> DEBUG: Extracted new_name: {new_name} (type: {type(new_name)})")
