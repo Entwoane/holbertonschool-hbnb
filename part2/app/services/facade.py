@@ -64,8 +64,10 @@ class HBnBFacade:
         if not isinstance(new_name, str):
             raise TypeError("new_name must be a string")
 
-        amenity.update(new_name)
-        self.amenity_repo.update(amenity_id, aminity)
+        if hasattr(amenity, "update") and callable(getattr(amenity, "update")):
+            amenity.update({"name": new_name})
+        else:
+            amenity.name = new_name
 
         return amenity
 
