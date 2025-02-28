@@ -16,18 +16,20 @@ class Amenity:
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-    def update(self, new_name):
+    def update(self, new_data):
         """ Update equipment name """
-        print(f">>> Type de new_data: {type(new_name)}, Contenu: {new_name}")
+        print(f">>> Type de new_data: {type(new_data)}, Contenu: {new_data}")
 
-        new_name = new_name("name")
+        if not isinstance(new_data, dict):
+            raise TypeError(f"Expected 'new_data' to be a dict, got {type(new_data)} instead.")
+        
+        new_name = new_data.get("name")
     
-        print(f">>> Extracted new_name: {new_name}")
+        print(f">>> DEBUG: Extracted new_name: {new_name} (type: {type(new_name)})")
         
         if not isinstance(new_name, str):
-            raise TypeError(f"Expected a string for 'name', got {type(new_name)}")
-        print(f">>> new_name reçu dans update(): {new_name} (type: {type(new_name)})")
-
+            raise TypeError(f"Expected a string for 'name', got {type(new_name)} instead.")
+        
         if len(new_name) > 50:
             raise ValueError("Equipment name must not exceed 50 characters")
 
