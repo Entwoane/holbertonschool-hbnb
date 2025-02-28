@@ -77,7 +77,7 @@ class HBnBFacade:
             return {"error": "Invalid place data"}, 400
         
         owner_id= place_data.get('owner_id')
-        if not owner:
+        if not owner_id:
             return {"error": "Owner is required"}, 400
 
         new_place = Place(
