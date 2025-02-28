@@ -75,12 +75,12 @@ class HBnBFacade:
         if not self._validate_place_data(place_data):
             return False
 
-        new_place = {
-            'name' : place_data.get('name'),
-            'price' : place_data.get('price'),
-            'latitude' : place_data.get('latitude'),
-            'longitude' : place_data.get('longitude')
-        }
+        new_place = Place(
+            name=place_data.get('name'),
+            price=place_data.get('price'),
+            latitude=place_data.get('latitude'),
+            longitude=place_data.get('longitude')
+        )
         return self.place_repo.add(new_place)
 
     def _validate_place_data(self, place_data):
