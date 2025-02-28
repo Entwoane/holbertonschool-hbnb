@@ -29,8 +29,9 @@ class Place:
         self.amenities = [] # Equipment list
         self.reviews = [] # List of reviews associated with this location
 
+
         if owner_id:
-            owner_id.add_place(self) # Add this location to the user's list of locations
+            owner_id.add_place(str) # Add this location to the user's list of locations
 
     def add_aminity(self, aminity):
         """ Associate a piece of equipment with this location """
