@@ -21,7 +21,6 @@ class Place:
         self.latitude = self.validate_latitude(latitude)
         self.longitude = self.validate_longitude(longitude)
         self.owner = self.validate_owner(owner_id)
-        self.owner = self.get_owner_object(owner_id)
         self.created_at = datetime.now()
         self.updated_at = self.created_at
 
