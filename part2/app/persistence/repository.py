@@ -39,6 +39,10 @@ class InMemoryRepository(Repository):
     def get_all(self):
         return list(self._storage.values())
 
+    def save(self, amenity):
+        """Saves an updated amenity in memory storage"""
+        self.data[amenity.id] = amenity  # Simulates backup
+
     def update(self, amenity_id, data):
         print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
 
@@ -52,7 +56,9 @@ class InMemoryRepository(Repository):
         for key, value in data.items():
             setattr(amenity, key, value)
 
-        self.save(amenity)
+        if hasattr(self, "save"):
+            self.save(amenity)
+
         return amenity
 
     def delete(self, obj_id):
