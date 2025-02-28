@@ -4,7 +4,7 @@
 import uuid
 from datetime import datetime
 from app.models.review import Review
-from app.models.user import User  # Ajout de l'import pour récupérer l'utilisateur
+from app.models.user import User
 
 class Place:
     def __init__(self, id, title, price, latitude, longitude, owner_id, description=None):
@@ -27,10 +27,10 @@ class Place:
         self.amenities = []  # Equipment list
         self.reviews = []  # List of reviews associated with this location
 
-        # Récupérer l'objet propriétaire
+        # Recover owner object
         owner = self.get_owner(owner_id)
         if owner:
-            owner.add_place(self)  # Ajouter ce lieu à la liste du propriétaire
+            owner.add_place(self)  # Add this location to the owner's list
 
     def get_owner(self, owner_id):
         """ Récupérer l'objet User correspondant à owner_id """
@@ -41,7 +41,7 @@ class Place:
 
     def add_aminity(self, aminity):
         """ Associate an amenity with this location """
-        from app.models.amenity import Amenity  # Importer ici pour éviter une importation circulaire
+        from app.models.amenity import Amenity
         if isinstance(aminity, Amenity):
             self.amenities.append(aminity)
         else:
