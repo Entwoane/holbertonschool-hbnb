@@ -50,18 +50,20 @@ class HBnBFacade:
         return [a.to_dict() for a in amenities]
 
     def update_amenity(self, amenity_id, data):
-        amenity = self.amenity_repo.get(amenity_id)
+        print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
+
+        if not isinstance(data, dict):
+            raise TypeError(f"Expected 'data' to be a dict, got {type(data)} instead.")
+
+        amenity = self.get(amenity_id)
         if not amenity:
             return None
 
-        new_name = data.get("name")
-        if new_name:
-           amenity.name = new_name
-           amenity.updated_at = datetime.now()
+        for key, value in data.items():
+            setattr(amenity, key, value)
 
-        print(f">>> Type d'amenity après modification: {type(amenity)} - Contenu: {amenity}")
-
-        self.amenity_repo.update(amenity_id, amenity.to_dict())
+        if hasattr(self, "save"):
+            self.save(amenity)
         
         return amenity
 
