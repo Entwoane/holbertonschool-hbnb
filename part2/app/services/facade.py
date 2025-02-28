@@ -55,7 +55,7 @@ class HBnBFacade:
         if not isinstance(data, dict):
             raise TypeError(f"Expected 'data' to be a dict, got {type(data)} instead.")
 
-        amenity = self.get(amenity_id)
+        amenity = self.amenity_repo.get(amenity_id)
         if not amenity:
             return None
 
