@@ -11,14 +11,12 @@ def create_app():
 
     # Register the users namespace
     api.add_namespace(users_ns, path='/api/v1/users')
+    api.add_namespace(amenities_ns, path="/api/v1/amenities")
     api.add_namespace(places_ns, path='/api/v1/places')
     api.add_namespace(reviews_ns, path='/api/v1/reviews')
+
     return app
 
-app = Flask(__name__)
-api = Api(app)
-
-# Ajouter le namespace
-api.add_namespace(amenities_ns, path="/api/v1/amenities")
 if __name__ == "__main__":
+    app = create_app()
     app.run(debug=True, host="0.0.0.0", port=5000)  
