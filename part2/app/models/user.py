@@ -24,13 +24,13 @@ class User:
         self.updated_at = datetime.now()
 
         # Relation
-        self.places = []  # ✅ Correction : liste des endroits possédés
-        self.reviews = []  # List of reviews written by the user
+        self.places = []  
+        self.reviews = []  
 
     def add_place(self, place):
         """ Associate a location with this user """
         if isinstance(place, Place):
-            self.places.append(place)  # ✅ Correction du nom de la liste
+            self.places.append(place)  
             place.owner = self  # Set user as owner
         else:
             raise TypeError("The object added must be an instance of Place")
@@ -46,7 +46,7 @@ class User:
     @staticmethod
     def validate_name(name, field_name):
         """ Checks that the name is a string of max 50 characters. """
-        if not isinstance(name, str) or len(name.strip()) > 50:  # ✅ Suppression des espaces inutiles
+        if not isinstance(name, str) or len(name.strip()) > 50:  
             raise ValueError(f"{field_name} must be a string of max 50 characters.")
         return name.strip()
 
@@ -56,7 +56,7 @@ class User:
         pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         if not re.match(pattern, email):
             raise ValueError("Invalid e-mail address.")
-        return email.strip().lower()  # ✅ Conversion en minuscules
+        return email.strip().lower()  
 
     def update(self, first_name=None, last_name=None, email=None, is_admin=None):
         """ Updates user information. """
@@ -78,4 +78,4 @@ class User:
                 f"Email: {self.email}\n"
                 f"Admin: {'Yes' if self.is_admin else 'No'}\n"
                 f"Created_at: {self.created_at}\n"
-                f"Updated_at: {self.updated_at}")  # ✅ Correction du nom
+                f"Updated_at: {self.updated_at}")  
