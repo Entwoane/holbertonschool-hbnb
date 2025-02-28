@@ -21,7 +21,7 @@ class Amenity:
         print(f">>> Type de new_data: {type(new_data)}, Contenu: {new_data}")
 
         if not isinstance(new_data, dict):
-            raise TypeError(f"Expected 'new_data' to be a dict, got {type(new_data)} instead.")
+            raise TypeError(f"Expected 'new_data' to be a dict, got {type(new_data)}")
         
         for key, value in new_data.items():
             setattr(self, key, value)
