@@ -62,12 +62,11 @@ class HBnBFacade:
         print(f">>> new_name extrait de data: {data.get('name')} (type: {type(data.get('name'))})")
 
         if not isinstance(new_name, str):
-            raise TypeError("new_name must be a string")
+            raise TypeError(f"Expected 'name' to be a string, got {type(new_name)} instead.")
 
-        if hasattr(amenity, "update") and callable(getattr(amenity, "update")):
-            amenity.update({"name": new_name})
-        else:
-            amenity.name = new_name
+        amenity.name = new_name
+
+        self.amenity_repo.update(amenity_id, amenity)
 
         return amenity
 
