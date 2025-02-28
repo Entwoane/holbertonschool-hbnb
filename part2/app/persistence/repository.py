@@ -39,15 +39,21 @@ class InMemoryRepository(Repository):
     def get_all(self):
         return list(self._storage.values())
 
-    def update(self, obj_id, data):
-        obj = self.get(obj_id)
-        if obj:
-            print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
-            
-            if not isinstance(data, dict):
-                raise TypeError(f"Expected dict in update(), got {type(data)}")
-            
-            obj.update(data)
+    def update(self, aminity_id, data):
+        print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
+
+        if not isinstance(data, dict):
+            raise TypeError(f"Expected 'data' to be a dict, got {type(data)} instead.")
+    
+        amenity = self.get(amenity_id)
+        if not amenity:
+            return None
+
+        for key, value in data.items():
+            setattr(amenity, key, value)
+
+        self.save(amenity)
+        return amenity
 
     def delete(self, obj_id):
         if obj_id in self._storage:
