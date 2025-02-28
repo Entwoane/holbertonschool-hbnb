@@ -39,7 +39,7 @@ class InMemoryRepository(Repository):
     def get_all(self):
         return list(self._storage.values())
 
-    def update(self, aminity_id, data):
+    def update(self, amenity_id, data):
         print(f">>> Type de data reçu dans update(): {type(data)} - Contenu: {data}")
 
         if not isinstance(data, dict):
