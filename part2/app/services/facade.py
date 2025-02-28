@@ -1,3 +1,4 @@
+from uuid import uuid4
 from app.persistence.repository import InMemoryRepository
 from app.models.amenity import Amenity
 from app.models.user import User
@@ -74,13 +75,20 @@ class HBnBFacade:
     # Logic to create a place, including validation for price, latitude, and longitude
         if not self._validate_place_data(place_data):
             return False
+        
+        owner = place_data.get('owner')
+        if not owner:
+            return {"error": "Owner is required"}, 400
 
         new_place = Place(
+            id=str(uuid4()),
+            owner=owner
             title=place_data.get('title'),
             price=place_data.get('price'),
             latitude=place_data.get('latitude'),
             longitude=place_data.get('longitude')
         )
+
         return self.place_repo.add(new_place)
 
     def _validate_place_data(self, place_data):
