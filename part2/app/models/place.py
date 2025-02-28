@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 """ Defining the place class, its attributes and relationships """
 
-
 import uuid
 from datetime import datetime
 from app.models.review import Review
+from app.models.user import User  # Ajout de l'import pour récupérer l'utilisateur
 
 class Place:
-    def __init__(self, id,  title, price, latitude, longitude, owner_id, description=None):
+    def __init__(self, id, title, price, latitude, longitude, owner_id, description=None):
         """ Initialization of a location with input validation """
-        super().__init__() # Initialize parent class
+        super().__init__()
 
         self.id = id
 
@@ -20,29 +20,38 @@ class Place:
         self.latitude = self.validate_latitude(latitude)
         self.longitude = self.validate_longitude(longitude)
         self.owner_id = self.validate_owner(owner_id)
-        self.created_at = datetime.now
+        self.created_at = datetime.now()
         self.updated_at = self.created_at
 
-        # Relation
-        self.owner = owner_id # The user who owns the site
-        self.amenities = [] # Equipment list
-        self.reviews = [] # List of reviews associated with this location
+        # Relations
+        self.amenities = []  # Equipment list
+        self.reviews = []  # List of reviews associated with this location
 
-        if owner_id:
-            owner_id.add_place(self) # Add this location to the user's list of locations
+        # Récupérer l'objet propriétaire
+        owner = self.get_owner(owner_id)
+        if owner:
+            owner.add_place(self)  # Ajouter ce lieu à la liste du propriétaire
+
+    def get_owner(self, owner_id):
+        """ Récupérer l'objet User correspondant à owner_id """
+        owner = User.query.filter_by(id=owner_id).first()
+        if not owner:
+            raise ValueError("Owner not found")
+        return owner
 
     def add_aminity(self, aminity):
-        """ Associate a piece of equipment with this location """
-        if isinstance(aminity, aminity):
-            self.aminities.append(aminity)
+        """ Associate an amenity with this location """
+        from app.models.amenity import Amenity  # Importer ici pour éviter une importation circulaire
+        if isinstance(aminity, Amenity):
+            self.amenities.append(aminity)
         else:
             raise TypeError("The object added must be an instance of Amenity")
 
     def add_review(self, review):
-        """ Associates a notice with this location """
+        """ Associates a review with this location """
         if isinstance(review, Review):
             self.reviews.append(review)
-            review.place = self # Associate notice with this location
+            review.place = self  # Associate review with this location
         else:
             raise TypeError("The object added must be an instance of Review")
 
@@ -70,18 +79,18 @@ class Place:
             raise ValueError("Longitude must be between -180.0 and 180.0")
         return longitude
 
-    def validate_owner(self, owner):
+    def validate_owner(self, owner_id):
         """ Validates the owner's existence """
-        if not owner:
+        if not owner_id:
             raise ValueError("A valid owner is required.")
-        return owner
+        return owner_id
 
     def update(self, **kwargs):
         """ Updates location attributes and timestamp """
         for key, value in kwargs.items():
-            if hasattr(self, key) and key != "id" and key != "created_at":
+            if hasattr(self, key) and key not in ["id", "created_at"]:
                 setattr(self, key, value)
         self.updated_at = datetime.now()
 
     def __str__(self):
-        return f"{self.title} - {self.price}€/night, {self.latitude}, {self.longitude} (Owner: {self.owner})"
+        return f"{self.title} - {self.price}€/night, {self.latitude}, {self.longitude} (Owner ID: {self.owner_id})"
