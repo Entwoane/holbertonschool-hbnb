@@ -89,7 +89,19 @@ class HBnBFacade:
             longitude=place_data.get('longitude')
         )
 
-        return self.place_repo.add(new_place)
+        created_place = self.place_repo.add(new_place)
+
+        return {
+            "message": "Place successfully created",
+            "place": {
+                "id": created_place.id,
+                "owner": created_place.owner,
+                "name": created_place.name,
+                "price": created_place.price,
+                "latitude": created_place.latitude,
+                "longitude": created_place.longitude
+            }
+        }, 201
 
     def _validate_place_data(self, place_data):
     # Logic to validate place data
