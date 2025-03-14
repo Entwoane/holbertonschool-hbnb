@@ -1,6 +1,8 @@
 from .basemodel import BaseModel
+from flask_bcrypt import Bcrypt
 import re
 
+bcrypt = Bcrypt()
 class User(BaseModel):
     emails = set()
 
@@ -12,6 +14,7 @@ class User(BaseModel):
         self.is_admin = is_admin
         self.places = []
         self.reviews = []
+        self.password= None
     
     @property
     def first_name(self):
@@ -73,6 +76,14 @@ class User(BaseModel):
     def delete_review(self, review):
         """Add an amenity to the place."""
         self.reviews.remove(review)
+
+    def hash_password(self, password):
+        """Hashes the password before storing it."""
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def verify_password(self, password):
+        """Verifies if the provided password matches the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
 
     def to_dict(self):
         return {
