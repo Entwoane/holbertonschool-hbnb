@@ -1,4 +1,5 @@
 from flask_restx import Namespace, Resource, fields
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -33,18 +34,21 @@ class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
+    @api.response(401, 'Unauthorized')
+    @api.response(404, 'User not found')
+    @jwt_required()
     def post(self):
         """Register a new place"""
-        place_data = api.payload
-        owner = place_data.get('owner_id', None)
-
-        if owner is None or len(owner) == 0:
-            return {'error': 'Invalid input data.'}, 400
-
-        user = facade.user_repo.get_by_attribute('id', owner)
-        if not user:
-            return {'error': 'Invalid input data'}, 400
         try:
+            current_user = get_jwt_identity()
+            user = facade.user_repo.get_by_attribute('id', current_user)
+
+            if not user:
+                return {'error': 'User not found'}, 404
+
+            place_data = api.payload.copy()
+            place_data['owner_id'] = current_user
+
             new_place = facade.create_place(place_data)
             return new_place.to_dict(), 201
         except Exception as e:
@@ -69,20 +73,26 @@ class PlaceResource(Resource):
 
     @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
-    @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
+    @api.response(401, 'Unauthorized action')
+    @api.response(403, 'Forbidden')
+    @api.response(404, 'Place not found')
+    @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
-        place_data = api.payload
-        place = facade.get_place(place_id)
-        if not place:
-            return {'error': 'Place not found'}, 404
         try:
+            current_user = get_jwt_identity()
+            place = facade.get_place(place_id)
+            
+            if not place:
+                return {'error': 'Place not found'}, 404
+            if str(place.owner._id) != current_user:
+                return {'error': 'Unauthorized action'}, 403
+            place_data = api.payload
             facade.update_place(place_id, place_data)
             return {'message': 'Place updated successfully'}, 200
         except Exception as e:
             return {'error': str(e)}, 400
-
 @api.route('/<place_id>/amenities')
 class PlaceAmenities(Resource):
     @api.expect(amenity_model)
