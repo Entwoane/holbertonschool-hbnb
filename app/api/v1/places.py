@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
 
 api = Namespace('places', description='Place operations')
@@ -24,8 +24,6 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
-    'owner': fields.Nested(user_model, description='Owner details'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
@@ -40,15 +38,34 @@ class PlaceList(Resource):
     def post(self):
         """Register a new place"""
         try:
+            jwt_payload = get_jwt()
+            print(f"JWT Payload: {jwt_payload}")
             current_user = get_jwt_identity()
+            print(f"User ID from JWT: {current_user} ('type: {type(current_user)})")
             user = facade.user_repo.get_by_attribute('id', current_user)
+            print(f"User from database: {user}")
 
             if not user:
                 return {'error': 'User not found'}, 404
 
             place_data = api.payload.copy()
             place_data['owner_id'] = current_user
+            valid_amenities = facade.amenity_repo.get_all()
+            print("\n=== AMÉNITÉS DISPONIBLES ===")
+            for a in valid_amenities:
+                print(f"ID: {a.id} | Nom: {a.name}")
+            print("===========================\n")
+            if 'amenities' not in place_data or not place_data['amenities']:
+                return {'error': 'At least one amenity is required'}, 400
 
+            invalid_amenities = []
+            for amenity_id in place_data['amenities']:
+                amenity = facade.amenity_repo.get_by_attribute('id', amenity_id)
+                if not amenity:
+                    invalid_amenities.append(amenity_id)
+
+            if invalid_amenities:
+                return {'error': f'Invalid amenity IDs: {invalid_amenities}'}, 400
             new_place = facade.create_place(place_data)
             return new_place.to_dict(), 201
         except Exception as e:
@@ -83,7 +100,7 @@ class PlaceResource(Resource):
         try:
             current_user = get_jwt_identity()
             place = facade.get_place(place_id)
-            
+
             if not place:
                 return {'error': 'Place not found'}, 404
             if str(place.owner._id) != current_user:
