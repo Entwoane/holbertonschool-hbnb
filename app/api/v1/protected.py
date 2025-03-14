@@ -1,10 +1,9 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, fields
 
+api = Namespace('protected', description='Protection operations')
 
-api = Namespace('protected', description='Protected operations')
-
-@api.route('/protected')
+@api.route('')
 class ProtectedResource(Resource):
     @jwt_required()
     def get(self):
