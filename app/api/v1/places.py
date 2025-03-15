@@ -117,6 +117,7 @@ class PlaceAmenities(Resource):
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
     def post(self, place_id):
+        """Register new amenity to place"""
         amenities_data = api.payload
         if not amenities_data or len(amenities_data) == 0:
             return {'error': 'Invalid input data'}, 400

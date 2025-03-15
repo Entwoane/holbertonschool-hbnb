@@ -7,7 +7,7 @@ class Config:
     DEBUG = False
 
 class DevelopmentConfig(Config):
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(basedir, "hbnb_database.db")}'
 
 config = {
