@@ -1,5 +1,5 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__)) #Absent sur le guide
 
 
 class Config:
@@ -7,8 +7,9 @@ class Config:
     DEBUG = False
 
 class DevelopmentConfig(Config):
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(basedir, "hbnb_database.db")}'
+    DEBUG = True #True selon le guide
+    SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(basedir, "hbnb_database.db")}'#SQLALCHEMY_DATABASE_URI = 'sqlite:///development.db' selon le guide
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config = {
     'development': DevelopmentConfig,
