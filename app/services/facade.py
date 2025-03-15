@@ -16,7 +16,8 @@ class HBnBFacade:
         user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
-            email=user_data['email']
+            email=user_data['email'],
+            is_admin=user_data.get('is_admin', False)
         )
         user.hash_password(user_data['password'])
         self.user_repo.add(user)
@@ -58,8 +59,8 @@ class HBnBFacade:
         place_data['owner'] = user
         amenities = place_data.pop('amenities', None)
         if amenities:
-            for a in amenities:
-                amenity = self.get_amenity(a['id'])
+            for amenity_id in amenities:
+                amenity = self.get_amenity(amenity_id)
                 if not amenity:
                     raise KeyError('Invalid input data')
         place = Place(**place_data)
@@ -78,6 +79,24 @@ class HBnBFacade:
 
     def update_place(self, place_id, place_data):
         self.place_repo.update(place_id, place_data)
+    
+    def delete_place(self, place_id):
+        place = self.place_repo.get(place_id)
+        if not place:
+            raise ValueError("Place not found")
+        
+        owner = place.owner
+        if owner and place in owner.places:
+            owner.places.remove(place)
+        
+        for amenity in place.amenity:
+            if place in amenity.places:
+                amenity.places.remove(place)
+        
+        for review in list(place.reviews):
+            self.delete_review(review.id)
+        
+        self.place_repo.delete(place_id)
 
     # REVIEWS
     def create_review(self, review_data):
