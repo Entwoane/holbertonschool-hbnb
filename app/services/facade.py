@@ -58,8 +58,8 @@ class HBnBFacade:
         place_data['owner'] = user
         amenities = place_data.pop('amenities', None)
         if amenities:
-            for a in amenities:
-                amenity = self.get_amenity(a['id'])
+            for amenity_id in amenities:
+                amenity = self.get_amenity(amenity_id)
                 if not amenity:
                     raise KeyError('Invalid input data')
         place = Place(**place_data)
