@@ -18,8 +18,6 @@ class HBnBFacade:
             last_name=user_data['last_name'],
             email=user_data['email'],
             is_admin=user_data.get('is_admin', False)
-            email=user_data['email'],
-            is_admin=user_data.get('is_admin', False)
         )
         user.hash_password(user_data['password'])
         self.user_repository.add(user)
