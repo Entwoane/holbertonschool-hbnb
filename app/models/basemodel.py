@@ -1,11 +1,16 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, UTC
+from flask_sqlalchemy import SQLAlchemy
 
-class BaseModel:
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+
+db = SQLAlchemy()
+
+class BaseModel(db.Model):
+    __abstract__ = True
+    
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = db.Column(db.DateTime, default=datetime.now(UTC))
+    updated_at = db.Column(db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC))
 
     def save(self):
         """Update the updated_at timestamp whenever the object is modified"""
