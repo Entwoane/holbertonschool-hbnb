@@ -12,6 +12,8 @@ user_model = api.model('User', {
     'email': fields.String(required=True, description='Email of the user'),
     'password': fields.String(required=True, description='Password of the user'),
     'is_admin': fields.Boolean(required=False, description='Admin status (true for admin)')
+    'password': fields.String(required=True, description='Password of the user'),
+    'is_admin': fields.Boolean(required=False, description='Admin status (true for admin)')
 })
 
 @api.route('/')
@@ -19,6 +21,7 @@ class UserList(Resource):
     @api.expect(user_model, validate=True)
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
+    @api.response(403, 'Admin privileges required')
     @api.response(403, 'Admin privileges required')
     def post(self):
         """Register a new user"""
@@ -29,6 +32,13 @@ class UserList(Resource):
         if existing_user:
             return {'error': 'Email already registered'}, 400
 
+        '''is_admin = user_data.get('is_admin', False)
+        current_user = get_jwt_identity()
+
+        # Prevent non-admins from creating admin users
+        if is_admin:
+            if not current_user or not current_user.get('is_admin'):
+                return {'error': 'Admin privileges required'}, 403'''
         '''is_admin = user_data.get('is_admin', False)
         current_user = get_jwt_identity()
 
@@ -66,7 +76,29 @@ class UserResource(Resource):
     @api.response(403, 'Forbidden')
     @api.response(404, 'User not found')
     @jwt_required()
+    @api.response(401, 'Unauthorized')
+    @api.response(403, 'Forbidden')
+    @api.response(404, 'User not found')
+    @jwt_required()
     def put(self, user_id):
+        """Modify user information"""
+        try:
+            current_user = get_jwt_identity()
+            
+            if str(user_id) != current_user:
+                return {'error': 'Unauthorized action'}, 403
+            
+            user = facade.get_user(user_id)
+            if not user:
+                return {'error': 'User not found'}, 404
+            user_data = api.payload
+            if 'email' in user_data or 'password' in user_data:
+                return {'error': 'You cannot modify email or password'}, 400
+            
+            updated_user = facade.update_user(user_id, user_data)
+            return updated_user.to_dict(), 200
+        
+        except ValueError as e:
         """Modify user information"""
         try:
             current_user = get_jwt_identity()
