@@ -32,14 +32,6 @@ class UserList(Resource):
 
         '''is_admin = user_data.get('is_admin', False)
         current_user = get_jwt_identity()
-
-        # Prevent non-admins from creating admin users
-        if is_admin:
-            if not current_user or not current_user.get('is_admin'):
-                return {'error': 'Admin privileges required'}, 403'''
-        '''is_admin = user_data.get('is_admin', False)
-        current_user = get_jwt_identity()
-
         # Prevent non-admins from creating admin users
         if is_admin:
             if not current_user or not current_user.get('is_admin'):
