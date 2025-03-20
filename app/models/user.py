@@ -1,23 +1,24 @@
 from .basemodel import BaseModel
 from flask_bcrypt import Bcrypt
-from flask_sqlalchemy import SQLAlchemy
+from app.db import db
 import re
 
-db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 
 class User(BaseModel):
     __tablename__ = 'users'
     
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), nullable=False, unique=True)
+    _first_name = db.Column(db.String(50), nullable=False)
+    _last_name = db.Column(db.String(50), nullable=False)
+    _email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
-    is_admin = db.Column(db.Boolean, default=False)
+    _is_admin = db.Column(db.Boolean, default=False)
+    is_active = db.Column(db.Boolean, default=True)
 
-    places = db.relationship('Place', backref='user', lazy='dynamic')
-    reviews = db.relationship('Review', backref='user', lazy='dynamic')
+    #Need to implement in task 7. Commented for test in Task 6
+    #places = db.relationship('Place', backref='user', lazy='dynamic')
+    #reviews = db.relationship('Review', backref='user', lazy='dynamic')
 
     def __init__(self, first_name, last_name, email, is_admin=False, password=None):
         super().__init__()
@@ -62,8 +63,6 @@ class User(BaseModel):
             raise TypeError("Email must be a string")
         if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
             raise ValueError("Invalid email format")
-        if value in User.emails:
-            raise ValueError("Email already exists")
         if len(value) > 120:
             raise ValueError("Email cant exceed 120 characters")
         self._email = value

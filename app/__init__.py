@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_restx import Api
-from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
 from app.api.v1.users import api as users_ns
@@ -10,8 +9,9 @@ from app.api.v1.reviews import api as reviews_ns
 from app.api.v1.auth import api as auth_api
 from app.api.v1.protected import api as protected_api
 from app.api.v1.admin import api as admin_api
+from .db import db
 
-db = SQLAlchemy()
+
 bcrypt = Bcrypt()
 jwt = JWTManager()
 

@@ -1,9 +1,7 @@
 import uuid
 from datetime import datetime, UTC
-from flask_sqlalchemy import SQLAlchemy
+from app.db import db
 
-
-db = SQLAlchemy()
 
 class BaseModel(db.Model):
     __abstract__ = True
