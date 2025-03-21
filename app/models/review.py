@@ -9,6 +9,11 @@ class Review(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(128), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    place_id = db.Column(db.Integer, db.ForeignKey('place.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    places = db.relationship('Place', backref='reviews', lazy=True)
+    users = db.relationship('User', backref='reviews', lazy=True)
 
     def __init__(self, text, rating, place, user):
         super().__init__()

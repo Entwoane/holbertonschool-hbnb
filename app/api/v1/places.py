@@ -50,13 +50,6 @@ class PlaceList(Resource):
 
             place_data = api.payload.copy()
             place_data['owner_id'] = current_user
-            valid_amenities = facade.amenity_repo.get_all()
-            print("\n=== AMÉNITÉS DISPONIBLES ===")
-            for a in valid_amenities:
-                print(f"ID: {a.id} | Nom: {a.name}")
-            print("===========================\n")
-            if 'amenities' not in place_data or not place_data['amenities']:
-                return {'error': 'At least one amenity is required'}, 400
 
             invalid_amenities = []
             for amenity_id in place_data['amenities']:

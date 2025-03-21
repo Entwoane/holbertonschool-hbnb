@@ -16,9 +16,9 @@ class User(BaseModel):
     _is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
 
-    #Need to implement in task 7. Commented for test in Task 6
-    #places = db.relationship('Place', backref='user', lazy='dynamic')
-    #reviews = db.relationship('Review', backref='user', lazy='dynamic')
+
+    places = db.relationship('Place', backref='user', lazy=True)
+    reviews = db.relationship('Review', backref='user', lazy=True)
 
     def __init__(self, first_name, last_name, email, is_admin=False, password=None):
         super().__init__()

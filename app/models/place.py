@@ -2,6 +2,12 @@ from .basemodel import BaseModel
 from .user import User
 from app.db import db
 
+place_amenity = db.Table(
+    'place_amenity',
+    db.Column('place_id', db.Integer, db.ForeignKey('place.id'), primary_key=True),
+    db.Column('amenity_id', db.Integer, db.ForeignKey('amenity.id'), primary_key=True)
+    )
+
 class Place(BaseModel):
     __tablename__ = 'places'
     
@@ -11,6 +17,11 @@ class Place(BaseModel):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    amenities = db.relationship('Amenity', secondary='place_amenity', lazy=db.subquery, backref=db.backref('places', lazy=True))
+    
+    user_id = db.relationship('User', backref='places')
+    reviews = db.relationship('Review', backref='places')
 
     def __init__(self, title: str, price: float, latitude: str, longitude, owner, description=None):
         super().__init__()
