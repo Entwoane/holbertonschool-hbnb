@@ -4,8 +4,8 @@ from app.db import db
 
 place_amenity = db.Table(
     'place_amenity',
-    db.Column('place_id', db.Integer, db.ForeignKey('place.id'), primary_key=True),
-    db.Column('amenity_id', db.Integer, db.ForeignKey('amenity.id'), primary_key=True)
+    db.Column('place_id', db.Integer, db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.Integer, db.ForeignKey('amenities.id'), primary_key=True)
     )
 
 class Place(BaseModel):
@@ -18,19 +18,18 @@ class Place(BaseModel):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    amenities = db.relationship('Amenity', secondary='place_amenity', lazy=db.subquery, backref=db.backref('places', lazy=True))
-    
-    user_id = db.relationship('User', backref='places')
-    reviews = db.relationship('Review', backref='places')
+    amenities = db.relationship('Amenity', secondary='place_amenity', backref=db.backref('places', lazy=True), lazy='dynamic')
+    user = db.relationship('User', back_populates='places', lazy=True)
+    reviews = db.relationship('Review', back_populates='place', lazy=True)
 
-    def __init__(self, title: str, price: float, latitude: str, longitude, owner, description=None):
+    def __init__(self, title: str, price: float, latitude: str, longitude, user, description=None):
         super().__init__()
         self.title = title
         self.description = description
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
+        self.user = user
         self.reviews = []  # List to store related reviews
         self.amenities = []  # List to store related amenities
 
@@ -80,16 +79,6 @@ class Place(BaseModel):
             raise TypeError("Longitude must be a float")
         super().is_between("longitude", value, -180, 180)
         self.__longitude = value
-
-    @property
-    def owner(self):
-        return self.__owner
-    
-    @owner.setter
-    def owner(self, value):
-        if not isinstance(value, User):
-            raise TypeError("Owner must be a user instance")
-        self.__owner = value
 
     def add_review(self, review):
         """Add a review to the place."""

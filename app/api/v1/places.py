@@ -37,28 +37,15 @@ class PlaceList(Resource):
     @jwt_required()
     def post(self):
         """Register a new place"""
+        current_user = get_jwt_identity()
+        user = facade.get_user(current_user['id'])
+        if not user:
+            return {'error': 'User not found'}, 404
+
+        place_data = api.payload
+        place_data['owner_id'] = current_user['id']
+
         try:
-            jwt_payload = get_jwt()
-            print(f"JWT Payload: {jwt_payload}")
-            current_user = get_jwt_identity()
-            print(f"User ID from JWT: {current_user} ('type: {type(current_user)})")
-            user = facade.user_repo.get_by_attribute('id', current_user)
-            print(f"User from database: {user}")
-
-            if not user:
-                return {'error': 'User not found'}, 404
-
-            place_data = api.payload.copy()
-            place_data['owner_id'] = current_user
-
-            invalid_amenities = []
-            for amenity_id in place_data['amenities']:
-                amenity = facade.amenity_repo.get_by_attribute('id', amenity_id)
-                if not amenity:
-                    invalid_amenities.append(amenity_id)
-
-            if invalid_amenities:
-                return {'error': f'Invalid amenity IDs: {invalid_amenities}'}, 400
             new_place = facade.create_place(place_data)
             return new_place.to_dict(), 201
         except Exception as e:
@@ -96,8 +83,10 @@ class PlaceResource(Resource):
 
             if not place:
                 return {'error': 'Place not found'}, 404
-            if str(place.owner.id) != current_user:
-                return {'error': 'Unauthorized action'}, 403
+            if not current_user.get('is_admin'):
+                if str(place.owner.id) != current_user:
+                    return {'error': 'Unauthorized action'}, 403
+
             place_data = api.payload
             facade.update_place(place_id, place_data)
             return {'message': 'Place updated successfully'}, 200

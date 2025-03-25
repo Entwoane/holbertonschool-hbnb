@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, verify_jwt_in_request
 from app.services import facade
 from flask import request
 
@@ -20,22 +20,31 @@ class UserList(Resource):
     @api.response(201, 'User successfully created')
     @api.response(400, 'Email already registered')
     @api.response(403, 'Admin privileges required')
-    @api.response(403, 'Admin privileges required')
     def post(self):
         """Register a new user"""
         user_data = api.payload
+        admin_exists = facade.check_if_admin_exists()
+        
+        if not admin_exists:
+            user_data['is_admin']=True
+        else:
+            if user_data.get('is_admin', False):
+                try:
+                    verify_jwt_in_request()
+                    # Prevent non-admins from creating admin users
+                    current_user_claims = get_jwt()
+                    if not current_user_claims.get('is_admin', False):
+                        return {'error': 'Admin privileges required'}, 403
+                except Exception as e:
+                    return {'error': 'Authentication required'}, 401
+            else:
+                user_data.pop('is_admin', None)
 
         # Simulate email uniqueness check (to be replaced by real validation with persistence)
         existing_user = facade.get_user_by_email(user_data['email'])
         if existing_user:
             return {'error': 'Email already registered'}, 400
 
-        is_admin = user_data.get('is_admin', False)
-        current_user = get_jwt_identity()
-        # Prevent non-admins from creating admin users
-        if is_admin:
-            if not current_user or not current_user.get('is_admin'):
-                return {'error': 'Admin privileges required'}, 403
         try:
             new_user = facade.create_user(user_data)
             return new_user.to_dict(), 201
@@ -63,11 +72,7 @@ class UserResource(Resource):
     @api.response(200, 'User updated successfully')
     @api.response(400, 'Invalid input data')
     @api.response(401, 'Unauthorized')
-    @api.response(403, 'Forbidden')
-    @api.response(404, 'User not found')
-    @jwt_required()
-    @api.response(401, 'Unauthorized')
-    @api.response(403, 'Forbidden')
+    @api.response(403, "Admin privileges required")
     @api.response(404, 'User not found')
     @jwt_required()
     def put(self, user_id):
@@ -75,20 +80,24 @@ class UserResource(Resource):
         try:
             current_user = get_jwt_identity()
             
-            if str(user_id) != current_user:
-                return {'error': 'Unauthorized action'}, 403
+            if not current_user.get('is_admin'):
+                return {'error': 'Admin privileges required'}, 403
             
-            user = facade.get_user(user_id)
-            if not user:
+            data = request.json
+            email = data.get('email')
+            existing_user = facade.get_user(user_id)
+            if not existing_user:
                 return {'error': 'User not found'}, 404
-            user_data = api.payload
-            if 'email' in user_data or 'password' in user_data:
-                return {'error': 'You cannot modify email or password'}, 400
+            if email:
+                # Check if email is already in use
+                other_user = facade.get_user_by_email(email)
+                if other_user and other_user.id != existing_user.id:
+                    return {'error': 'Email is already in use'}, 400
             
-            updated_user = facade.update_user(user_id, user_data)
+            updated_user = facade.update_user(user_id, data)
             return updated_user.to_dict(), 200
         
         except ValueError as e:
             return {'error': str(e)}, 400
         except Exception as e:
-            return {'error': 'Failed to update user'}, 500
+            return {'error': f'Failed to update user: {str(e)}'}, 500

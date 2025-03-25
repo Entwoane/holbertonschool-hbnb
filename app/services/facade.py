@@ -15,12 +15,16 @@ class HBnBFacade:
         self.review_repository = ReviewRepository()
         self.amenity_repository = AmenityRepository()
 
+    #ADMIN
+    def check_if_admin_exists(self):
+        users = self.get_users()
+        return any(user.is_admin for user in users)
     # USER
     def create_user(self, user_data):
         user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
-            email=user_data['email'],
+            email=user_data['email'].lower().strip(),
             is_admin=user_data.get('is_admin', False)
         )
         user.hash_password(user_data['password'])
@@ -34,10 +38,16 @@ class HBnBFacade:
         return self.user_repository.get(user_id)
 
     def get_user_by_email(self, email):
-        return self.user_repository.get_by_attribute('email', email)
+        return self.user_repository.get_by_attribute('_email', email.lower().strip())
     
     def update_user(self, user_id, user_data):
-        self.user_repository.update(user_id, user_data)
+            user = self.get_user(user_id)
+            user.first_name = user_data.get('first_name', user.first_name)
+            user.last_name = user_data.get('last_name', user.last_name)
+            user.email = user_data.get('email', user.email)
+            
+            self.user_repository.update(user_id, user_data)
+            return user
     
     # AMENITY
     def create_amenity(self, amenity_data):
@@ -61,20 +71,24 @@ class HBnBFacade:
             raise KeyError('Invalid input data')
         del place_data['owner_id']
         place_data['owner'] = user
+        
         amenities = place_data.pop('amenities', None)
+        fetched_amenities = []
+        
         if amenities:
-            for amenity_id in amenities:
-                amenity = self.get_amenity(amenity_id)
             for amenity_id in amenities:
                 amenity = self.get_amenity(amenity_id)
                 if not amenity:
                     raise KeyError('Invalid input data')
+                fetched_amenities.append(amenity)
+
         place = Place(**place_data)
         self.place_repository.add(place)
         user.add_place(place)
-        if amenities:
-            for amenity in amenities:
+        if fetched_amenities:
+            for amenity in fetched_amenities:
                 place.add_amenity(amenity)
+        self.place_repository.session.commit()
         return place
 
     def get_place(self, place_id):

@@ -12,13 +12,13 @@ class User(BaseModel):
     _first_name = db.Column(db.String(50), nullable=False)
     _last_name = db.Column(db.String(50), nullable=False)
     _email = db.Column(db.String(120), nullable=False, unique=True)
-    password = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     _is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True)
 
 
-    places = db.relationship('Place', backref='user', lazy=True)
-    reviews = db.relationship('Review', backref='user', lazy=True)
+    places = db.relationship('Place', back_populates='user', lazy=True)
+    reviews = db.relationship('Review', back_populates='user', lazy=True)
 
     def __init__(self, first_name, last_name, email, is_admin=False, password=None):
         super().__init__()
@@ -79,11 +79,11 @@ class User(BaseModel):
 
     def hash_password(self, password):
         """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password, password)
+        return bcrypt.check_password_hash(self.password_hash, password)
 
     def to_dict(self):
         return {

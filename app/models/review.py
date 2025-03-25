@@ -9,11 +9,11 @@ class Review(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(128), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
-    place_id = db.Column(db.Integer, db.ForeignKey('place.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    place_id = db.Column(db.Integer, db.ForeignKey('places.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
-    places = db.relationship('Place', backref='reviews', lazy=True)
-    users = db.relationship('User', backref='reviews', lazy=True)
+    place = db.relationship('Place', back_populates='reviews', lazy=True)
+    user = db.relationship('User', back_populates='reviews', lazy=True)
 
     def __init__(self, text, rating, place, user):
         super().__init__()
@@ -44,26 +44,6 @@ class Review(BaseModel):
             raise TypeError("Rating must be an integer")
         super().is_between('Rating', value, 1, 6)
         self.__rating = value
-
-    @property
-    def place(self):
-        return self.__place
-    
-    @place.setter
-    def place(self, value):
-        if not isinstance(value, Place):
-            raise TypeError("Place must be a place instance")
-        self.__place = value
-
-    @property
-    def user(self):
-        return self.__user
-    
-    @user.setter
-    def user(self, value):
-        if not isinstance(value, User):
-            raise TypeError("User must be a user instance")
-        self.__user = value
 
     def to_dict(self):
         return {

@@ -3,7 +3,7 @@ from flask_restx import Namespace, Resource, fields
 
 api = Namespace('protected', description='Protection operations')
 
-@api.route('')
+@api.route('/protected')
 class ProtectedResource(Resource):
     @jwt_required()
     def get(self):
