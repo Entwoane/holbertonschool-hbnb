@@ -1,0 +1,165 @@
+/* 
+  This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
+  You'll probably need to override some of theese styles.
+*/
+:root {
+  --background-color: #e7e7e7;
+  --color-red: #ff2600;
+  --color-grey: #333;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: rgb(231, 231, 231);
+  background: linear-gradient(0deg, #e7e7e7 0%, #ffffff 100%);
+  color: var(--color-grey);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/*<------ HEADER ------>*/
+header {
+  background-color: var(--background-color);
+  color: #fff;
+  padding: 1rem;
+  border-bottom: 3px solid var(--color-red);
+}
+
+header img {
+  width: 8%;
+  max-width: 100px;
+  margin-right: auto;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 150px;
+}
+
+nav a {
+  color: var(--color-grey);
+  text-decoration: none;
+  margin-left: 1rem;
+  transition: all ease-in-out 0.4s;
+  margin: 0 20px;
+}
+
+nav a:hover,
+nav a:focus {
+  color: var(--color-red);
+}
+
+/*<------ MAIN INDEX ------>*/
+main {
+  padding: 2rem;
+  flex: 1;
+}
+
+main h1,
+#filter {
+  text-align: center;
+  margin: 25px;
+}
+
+.place-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.card-1,
+.card-2,
+.card-3 {
+  width: 450px;
+  height: 650px;
+  object-fit: cover;
+  margin: 20px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.place-card button {
+  display: block;
+  width: auto;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+}
+
+/*<------ LOGIN ----->*/
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin: 150px auto;
+  background-color: #ececec;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px #2b2b2b36;
+  border: 1px solid #fff;
+}
+
+form h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+
+form label {
+  margin: 5px 0;
+}
+
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--color-red);
+  border-radius: 5px;
+}
+
+button[type='submit'] {
+  padding: 10px;
+  width: 45%;
+  margin: 20px auto 15px;
+  border: none;
+  border-bottom: 1px solid var(--color-grey);
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  transition: ease-in-out 0.3s;
+}
+
+button[type='submit']:hover,
+button[type='submit']:focus {
+  background-color: #333;
+  color: #ddd;
+  cursor: pointer;
+}
+.error {
+  color: var(--color-red);
+  margin-top: 0px;
+}
+/*<------ FOOTER ------>*/
+footer {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--color-grey);
+  color: #ddd;
+  text-align: center;
+}

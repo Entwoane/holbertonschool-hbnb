@@ -1,95 +1,74 @@
-from .basemodel import BaseModel
-from flask_bcrypt import Bcrypt
-from app.db import db
-import re
-
-bcrypt = Bcrypt()
+from app.extensions import bcrypt, db
+from app.models.base import BaseModel
+from sqlalchemy.orm import validates
 
 
 class User(BaseModel):
-    __tablename__ = 'users'
-    
-    _first_name = db.Column(db.String(50), nullable=False)
-    _last_name = db.Column(db.String(50), nullable=False)
-    _email = db.Column(db.String(120), nullable=False, unique=True)
-    password_hash = db.Column(db.String(128), nullable=False)
-    _is_admin = db.Column(db.Boolean, default=False)
-    is_active = db.Column(db.Boolean, default=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
+    places = db.relationship("Place", back_populates="owner", cascade="all, delete-orphan")
+    reviews = db.relationship("Review", back_populates="user", cascade="all, delete-orphan")
 
-    places = db.relationship('Place', back_populates='user', lazy=True)
-    reviews = db.relationship('Review', back_populates='user', lazy=True)
-
-    def __init__(self, first_name, last_name, email, is_admin=False, password=None):
+    def __init__(
+        self,
+        first_name,
+        last_name,
+        email,
+        password,
+        is_admin=False,
+    ) -> None:
         super().__init__()
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.is_admin = is_admin
-        if password:
-            self.hash_password(password)
-    
-    @property
-    def first_name(self):
-        return self._first_name
-    
-    @first_name.setter
-    def first_name(self, value):
+        self.first_name: str = first_name
+        self.last_name: str = last_name
+        self.email: str = email
+        self.password: str = password
+        self.is_admin: bool = is_admin
+
+    @validates("first_name")
+    def validate_first_name(self, key, value: str):
         if not isinstance(value, str):
-            raise TypeError("First name must be a string")
-        if len(value) > 50:
-            raise ValueError("First name must be 50 characters or less")
-        self._first_name = value
+            raise ValueError("First name must be a string")
+        if not value or len(value) > 50:
+            raise ValueError(
+                "First name cannot be emtpy and must be less than 50 characters"
+            )
 
-    @property
-    def last_name(self):
-        return self._last_name
+        return value
 
-    @last_name.setter
-    def last_name(self, value):
+    @validates("last_name")
+    def validate_last_name(self, key, value: str):
         if not isinstance(value, str):
-            raise TypeError("Last name must be a string")
-        if len(value) > 50:
-            raise ValueError("Last name must be 50 characters or less")
-        self._last_name = value
+            raise ValueError("Last name must be a string")
+        if not value or len(value) > 50:
+            raise ValueError(
+                "Last name cannot be emtpy and must be less than 50 characters"
+            )
 
-    @property
-    def email(self):
-        return self._email
+        return value
 
-    @email.setter
-    def email(self, value):
-        if not isinstance(value, str):
-            raise TypeError("Email must be a string")
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", value):
-            raise ValueError("Invalid email format")
-        if len(value) > 120:
-            raise ValueError("Email cant exceed 120 characters")
-        self._email = value
+    @validates("email")
+    def validate_email(self, key, value: str):
+        if (
+            "@" not in value
+            or "." not in value.split("@")[-1]
+            or value.endswith(".")
+        ):
+            raise ValueError("Invalid email address")
 
-    @property
-    def is_admin(self):
-        return self._is_admin
-    
-    @is_admin.setter
-    def is_admin(self, value):
-        if not isinstance(value, bool):
-            raise TypeError("Is Admin must be a boolean")
-        self._is_admin = value
+        return value
 
-    def hash_password(self, password):
+    @validates("password")
+    def validate_password(self, key, password: str):
         """Hashes the password before storing it."""
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        if not isinstance(password, str):
+            raise ValueError("Password must be a string")
+
+        return bcrypt.generate_password_hash(password).decode("utf-8")
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
-        return bcrypt.check_password_hash(self.password_hash, password)
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'email': self.email,
-            'is_admin': self.is_admin
-        }
+        return bcrypt.check_password_hash(self.password, password)
