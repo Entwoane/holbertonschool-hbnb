@@ -64,8 +64,7 @@ main {
   flex: 1;
 }
 
-main h1,
-#filter {
+main h1 {
   text-align: center;
   margin: 25px;
 }
@@ -73,6 +72,7 @@ main h1,
 #places-list {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -106,6 +106,19 @@ main h1,
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
+}
+
+#filter {
+  width: 150px;
+  margin: 15px auto;
+}
+
+#filter select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-red);
+  border-radius: 5px;
+  cursor: pointer; /* Slight upward offset */
 }
 
 /*<------ LOGIN ----->*/
@@ -167,9 +180,8 @@ button[type='submit']:focus {
 
 /*<------ PLACES ------>*/
 select {
-	padding: 20px;;
+  padding: 20px;
 }
-
 
 /*<------ FOOTER ------>*/
 footer {
