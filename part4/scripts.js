@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
           }
         } catch (error) {
-          alert('An error occured while logging in: ' + error.message);
+          alert('An error occurred while logging in: ' + error.message);
         }
       }
 
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
       displayPlaces(data);
     } catch (error) {
       console.error(error);
-      alert('Session expired of invalid token. Please log in again.');
+      alert('Session expired or invalid token. Please log in again.');
       document.getElementById('login-link').style.display = 'block';
     }
   }
@@ -130,9 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
       placeElement.className = 'place-card';
       placeElement.innerHTML = `
         <h3>${place.title}</h3>
+		<hr>
         <p>${place.description}</p>
+		<p>Price: $${place.price} per night</p>
+		<p>Latitude: ${place.latitude}</p>
+		<p>Longitude: ${place.longitude}</p>
         <button>View Details</button>`;
       placesContainer.appendChild(placeElement);
     });
+  }
+
+  // Dropdown Menu
+  const dropDownMenu = document.querySelector('#price-filter');
+
+  const array = ['All', '100', '200', '350']
+  for (const[index, arr] of array.entries()) {
+	const opt = document.createElement('option');
+	opt.value = index;
+	opt.innerHTML = arr;
+	dropDownMenu.appendChild(opt);
   }
 });

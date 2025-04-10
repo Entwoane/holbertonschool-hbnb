@@ -13,7 +13,26 @@ def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
     CORS(app, origins=["http://127.0.0.1:5500"], supports_credentials=True)
     app.config.from_object(config_class)
-    api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API')
+     # ✅ Swagger JWT Authorization
+    authorizations = {
+        'Bearer': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"'
+        }
+    }
+
+    # ✅ Initialisation de Swagger avec l'auth
+    api = Api(
+        app,
+        version='1.0',
+        title='HBnB API',
+        description='HBnB Application API',
+        authorizations=authorizations,
+        security='Bearer'  # facultatif, mais pratique pour tout activer
+    )
+    
     bcrypt.init_app(app=app)
     jwt.init_app(app=app)
     db.init_app(app)
