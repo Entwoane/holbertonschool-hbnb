@@ -19,20 +19,23 @@
     </header>
 
     <main>
-      <section id="place-details">
-        <!-- Place details will be populated dynamically -->
-        <img id="place-image" src="" alt="Place Image" />
-      </section>
-      <section id="reviews">
-        <!-- Reviews will be populated dynamically -->
-      </section>
+      <div class="pr-container">
+        <section id="place-details">
+          <!-- Place details will be populated dynamically -->
+          <img id="place-image" src="" alt="Place Image" />
+        </section>
+        <section id="reviews">
+          <!-- Reviews will be populated dynamically -->
+        </section>
+      </div>
       <section id="add-review">
         <h2>Add a Review</h2>
         <form id="review-form">
           <label for="review-text">Review:</label>
           <textarea id="review-text" name="review-text" required></textarea>
-
-          <button type="submit">Submit</button>
+          <div class="review-btn">
+            <button type="submit">Submit</button>
+          </div>
         </form>
       </section>
     </main>

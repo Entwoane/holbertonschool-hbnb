@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       console.log('Token is valid.');
       if (loginLink) loginLink.style.display = 'none';
-      if (addReviewSection) addReviewSection.style.display = 'inline-block';
+      if (addReviewSection) addReviewSection.style.display = 'flex';
       if (currentPage === 'index.html') fetchPlaces(token);
 
       if (currentPage === 'place.html') {
@@ -227,19 +227,20 @@ document.addEventListener('DOMContentLoaded', () => {
       <div id="place-name">
         <h1>${place.title}</h1>
       </div>
+      <hr>
       <div id="place-description">
         <h4>Host: ${place.owner_first_name} ${place.owner_last_name}</h4>
-        <h4>Price per night: $${place.price}</h4>
-        <p>Description: ${
-          place.description || 'Aucune description disponible'
-        }</p>
+        <p>${place.description || 'Aucune description disponible'}</p>
+        <div id="price-per-night">
+          <h4>Price per night: $${place.price}</h4>
+        </div>
             <div id="place-amenities">
       <h4>Amenities:</h4>
       <ul id="amenities-list">
         ${
           place.amenities && place.amenities.length > 0
             ? place.amenities
-                .map((amenity) => `<li>${amenity.name}</li>`)
+                .map((amenity) => `<li>&#10004; ${amenity.name}</li>`)
                 .join('')
             : '<li>No amenities available</li>'
         }

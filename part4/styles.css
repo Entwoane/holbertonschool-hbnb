@@ -64,7 +64,7 @@ main {
   flex: 1;
 }
 
-main h1 {
+.index-title {
   text-align: center;
   margin: 25px;
 }
@@ -134,7 +134,7 @@ main h1 {
   border: 1px solid #fff;
 }
 
-form h2 {
+#login-form h2 {
   text-align: center;
   margin-bottom: 15px;
   font-size: 2rem;
@@ -184,13 +184,66 @@ select {
 }
 
 /*<------ PLACE DETAILS ------>*/
+.pr-container {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin: 50px auto;
+}
+
 #place-details {
-  margin: 55px auto;
-  border: 1px solid #ddd;
+  width: 55%;
+  padding: 10px 50px 25px 50px;
+  border-right: 1px solid var(--color-red);
+  border-bottom: 1px solid var(--color-red);
+  box-shadow: 10px 10px 20px 5px rgba(73, 73, 73, 0.089);
   border-radius: 15px;
-  padding: 0px 50px 20px 50px;
-  width: 400px;
-  min-width: 45%;
+}
+
+#reviews {
+  margin: auto 0;
+  padding: 10px 50px 25px 50px;
+}
+
+#place-name {
+  font-size: 25px;
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+#place-description {
+  margin: 20px;
+}
+#place-description h4,
+p {
+  margin: 0 0 10px 0;
+}
+
+#price-per-night {
+  justify-content: center;
+  border-radius: 5px;
+  width: 150px;
+  line-height: 135%;
+}
+
+#place-amenities {
+  margin-top: 20px;
+}
+
+#amenities-list {
+  list-style: none;
+  margin: 15px auto;
+}
+
+/*<------ PLACE REVIEW ------>*/
+#add-review {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 750px;
+}
+#add-review h2 {
+  font-size: 30px;
 }
 
 /*<------ FOOTER ------>*/
