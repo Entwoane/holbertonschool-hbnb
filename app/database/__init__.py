@@ -70,7 +70,8 @@ def _seed_places():
             "price": 150.00,
             "latitude": 40.7128,
             "longitude": -74.0060,
-            "amenities": [wifi, ac]  
+            "amenities": [wifi, ac],
+            "image": "part4/assets/img/oswaldo-delgado-loft-unsplash.jpg"  
         },
         {
             "title": "Cozy Mountain Retreat with Stunning Views",
@@ -78,7 +79,8 @@ def _seed_places():
             "price": 300.00,
             "latitude": 34.0522,
             "longitude": -118.2437,
-            "amenities": [wifi]  
+            "amenities": [wifi],
+            "image": "part4/assets/img/alex-hawthorne-cozy-cabin-unsplash.jpg"
         },
         {
             "title": "Beachfront Bungalow with Private Deck",
@@ -86,7 +88,8 @@ def _seed_places():
             "price": 200.00,
             "latitude": 51.5074,
             "longitude": -0.1278,
-            "amenities": [pool, ac, wifi]  
+            "amenities": [pool, ac, wifi],  
+            "image": "part4/assets/img/roberto-nickson-beach-house-unsplash.jpg"
         }
     ]
 

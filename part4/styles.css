@@ -2,6 +2,11 @@
   This is a SAMPLE File to get you started. Follow the instructions on the project to complete the tasks. 
   You'll probably need to override some of theese styles.
 */
+@font-face {
+  font-family: quicksand;
+  src: url(./assets/fonts/Quicksand-Regular.ttf);
+}
+
 :root {
   --background-color: #e7e7e7;
   --color-red: #ff2600;
@@ -11,7 +16,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: quicksand, Arial, sans-serif;
 }
 
 body {
@@ -66,7 +71,7 @@ main {
 
 .index-title {
   text-align: center;
-  margin: 25px;
+  margin: 25px 0px 15px 0px;
 }
 
 #places-list {
@@ -81,36 +86,64 @@ main {
   justify-content: flex-start;
   flex-direction: column;
   width: 450px;
-  height: 350px;
+  min-height: 350px;
   object-fit: cover;
   background-color: #ffffff;
-  padding: 25px;
+  padding: 35px;
   border-radius: 10px;
   border: 1px solid #ddd;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.place-card.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.place-card.disappear {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
 .place-card h3 {
-  margin: 0;
+  margin-bottom: 15px;
   text-align: center;
   font-size: 2rem;
 }
 
 .place-card p {
-  margin-top: auto;
+  margin-top: 10px;
 }
 
-.place-card button {
-  display: block;
+.pc-price {
+  margin-top: auto;
   width: auto;
+}
+.pc-price > p {
+  margin-bottom: 20px;
+}
+.place-card button {
+  margin: auto;
+  display: block;
+  width: 350px;
   margin-top: auto;
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 1s ease;
+}
+
+.place-card button:hover {
+  border: 1px solid var(--color-red);
+  background-color: #e7e7e7;
+  cursor: pointer;
 }
 
 #filter {
   width: 150px;
-  margin: 15px auto;
+  margin: 10px auto 30px;
 }
 
 #filter select {
@@ -235,17 +268,62 @@ p {
   margin: 15px auto;
 }
 
-/*<------ PLACE REVIEW ------>*/
-#add-review {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  width: 750px;
-}
-#add-review h2 {
-  font-size: 30px;
+#add-review-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 1s ease;
 }
 
+#add-review-button:hover {
+  border: 1px solid var(--color-red);
+  background-color: #e7e7e7;
+  cursor: pointer;
+}
+/*<------ PLACE REVIEW ------>*/
+#review-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin: 45px auto;
+  width: 750px;
+  box-shadow: 10px 10px 20px 5px rgba(73, 73, 73, 0.089);
+  border-radius: 15px;
+  padding: 45px;
+}
+
+#review-form textarea {
+  resize: none;
+  padding: 20px;
+  height: 150px;
+  border: none;
+  border: 1px transparent;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+}
+
+#review-form textarea:focus {
+  border-right: 1px solid var(--color-red);
+  border-bottom: 1px solid var(--color-red);
+  outline: none;
+}
+#rating {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.ratin-sub-container button {
+  padding: 10px;
+  width: 45%;
+  margin: 20px auto 15px;
+  border: none;
+  border-bottom: 1px solid var(--color-grey);
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  transition: ease-in-out 0.3s;
+}
 /*<------ FOOTER ------>*/
 footer {
   width: 100%;
