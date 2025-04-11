@@ -215,6 +215,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeDetails = document.getElementById('place-details');
     if (!placeDetails) return;
 
+    const placeImage = document.getElementById('place-image');
+    if (place.image_url) {
+      placeImage.src = place.image_url;
+      placeImage.style.display = 'block';
+    } else {
+      placeImage.style.display = 'none';
+    }
+
     placeDetails.innerHTML = `
       <div id="place-name">
         <h1>${place.title}</h1>

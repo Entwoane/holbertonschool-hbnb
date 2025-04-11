@@ -183,6 +183,16 @@ select {
   padding: 20px;
 }
 
+/*<------ PLACE DETAILS ------>*/
+#place-details {
+  margin: 55px auto;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 0px 50px 20px 50px;
+  width: 400px;
+  min-width: 45%;
+}
+
 /*<------ FOOTER ------>*/
 footer {
   width: 100%;
